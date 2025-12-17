@@ -1,0 +1,106 @@
+Problem Statement
+
+In a mystical kingdom, magical disks of different sizes are stacked on a Source Peg.
+The goal is to transfer all disks to the Destination Peg using a Helper Peg, following the rules of the Tower of Hanoi:
+
+1. Only one disk can be moved at a time.
+
+
+2. A larger disk can never be placed on a smaller disk.
+
+
+3. The Helper Peg may be used temporarily.
+
+
+
+Using the Tower of Hanoi algorithm, calculate the minimum number of moves required to transfer all disks from the Source Peg to the Destination Peg.
+
+
+---
+
+Input Format
+
+A single integer n, representing the number of disks.
+
+
+
+---
+
+Output Format
+
+Print a single integer representing the minimum number of moves required to solve the Tower of Hanoi problem for n disks.
+
+
+
+---
+
+Constraints
+
+0 < n < 8
+
+
+
+---
+
+Sample Test Case 1
+
+Input
+
+2
+
+Output
+
+3
+
+
+---
+
+Sample Test Case 2
+
+Input
+
+4
+
+Output
+
+15
+
+
+---
+
+Explanation (Conceptual)
+
+The minimum number of moves required to solve the Tower of Hanoi problem for n disks is:
+
+2^n - 1
+
+This comes from the recursive nature of the problem:
+
+Move n-1 disks to helper peg
+
+Move the largest disk
+
+Move n-1 disks to destination peg
+
+
+
+---
+
+
+#include <iostream>
+using namespace std;
+
+long long hanoi(int n)
+{
+    if (n == 0)
+        return 0;
+    return 2 * hanoi(n - 1) + 1;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    cout << hanoi(n);
+    return 0;
+}
