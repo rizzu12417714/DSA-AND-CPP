@@ -1,0 +1,69 @@
+Question Paragraph
+Pavani is tasked with implementing a class named Distance that 
+represents a distance using two units: feet and inches.
+The objective is to overload the unary decrement operator (--) so that 
+applying it to a Distance object decreases the distance by one foot and one inch.
+The program should:
+Read user input for feet and inches.
+Apply the overloaded decrement operator.
+Display the updated distance in the format feet'inches.
+Input Format
+Two integers separated by a space:
+First integer represents feet
+Second integer represents inches
+Output Format
+
+Display the updated distance after decrement in the format:
+
+feet'inches
+Constraints
+
+1 ≤ feet ≤ 100
+
+1 ≤ inches ≤ 12
+Sample Test Case
+
+Input
+
+8 9
+
+Output
+
+7'8
+
+
+
+#include <iostream>
+using namespace std;
+
+class Distance {
+    int feet;
+    int inches;
+public:
+    Distance(int f, int i) {
+        feet = f;
+        inches = i;
+    }
+
+    void operator--() {
+        feet--;
+        inches--;
+        if (inches < 0) {
+            inches = 11;
+            feet--;
+        }
+    }
+
+    void display() {
+        cout << feet << "'" << inches;
+    }
+};
+
+int main() {
+    int f, i;
+    cin >> f >> i;
+    Distance d(f, i);
+    --d;
+    d.display();
+    return 0;
+}
