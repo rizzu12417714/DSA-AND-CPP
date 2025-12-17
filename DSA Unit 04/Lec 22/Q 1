@@ -1,0 +1,98 @@
+Problem Statement
+
+You are given T test cases.
+Each test case consists of two integers a and b, where a is the base and b is the exponent.
+Your task is to compute a raised to the power b for each test case and print the result on a new line.
+
+You must implement an efficient power() function using recursion to calculate the result.
+
+
+---
+
+Input Format
+
+The first line contains an integer T, representing the number of test cases.
+
+The next T lines each contain two space-separated integers a and b.
+
+
+
+---
+
+Output Format
+
+For each test case, print a single integer on a new line representing aᵇ.
+
+
+
+---
+
+Constraints
+
+1 ≤ T ≤ 10
+
+0 ≤ a ≤ 200
+
+0 ≤ b ≤ 10
+
+
+
+---
+
+Sample Test Case 1
+
+Input
+
+2
+15 5
+100 5
+
+Output
+
+759375
+10000000000
+
+
+---
+
+Sample Test Case 2
+
+Input
+
+1
+7 5
+
+Output
+
+16807
+
+
+
+
+Code 
+
+
+
+
+#include <iostream>
+using namespace std;
+
+long long power(long long a, long long b)
+{
+    if (b == 0)
+        return 1;
+    return a * power(a, b - 1);
+}
+
+int main()
+{
+    int T;
+    cin >> T;
+    while (T--)
+    {
+        long long a, b;
+        cin >> a >> b;
+        cout << power(a, b) << endl;
+    }
+    return 0;
+}
