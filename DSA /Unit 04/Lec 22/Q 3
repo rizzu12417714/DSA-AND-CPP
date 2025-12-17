@@ -1,0 +1,124 @@
+Problem Statement
+
+During an archaeological expedition, a team discovers the Disk of Light, consisting of multiple disks arranged on three pedestals: Source (A), Auxiliary (B), and Illuminated (C).
+All disks are initially placed on pedestal A, with smaller disks on top of larger ones.
+
+The objective is to move all disks from Source (A) to Illuminated (C) by following these rules:
+
+1. Only one disk can be moved at a time.
+
+
+2. A disk can only be placed on top of a larger disk or on an empty pedestal.
+
+
+3. All moves must follow the correct order of the ritual.
+
+
+
+You must write a program using recursion to display the sequence of moves and finally print the total number of times the disk is moved.
+
+
+---
+
+Input Format
+
+The input consists of a single integer n, representing the number of disks.
+
+
+
+---
+
+Output Format
+
+Print each move in the format:
+Move disk X from A to C
+
+The last line prints the total number of moves in the format:
+Total number of times the disk is moved: Y
+
+
+
+---
+
+Constraints
+
+0 < n ≤ 8
+
+
+
+---
+
+Sample Test Case 1
+
+Input
+
+3
+
+Output
+
+Move disk 1 from A to C
+Move disk 2 from A to B
+Move disk 1 from C to B
+Move disk 3 from A to C
+Move disk 1 from B to A
+Move disk 2 from B to C
+Move disk 1 from A to C
+Total number of times the disk is moved: 7
+
+
+---
+
+Sample Test Case 2
+
+Input
+
+4
+
+Output
+
+Move disk 1 from A to B
+Move disk 2 from A to C
+Move disk 1 from B to C
+Move disk 3 from A to B
+Move disk 1 from C to A
+Move disk 2 from C to B
+Move disk 1 from A to B
+Move disk 4 from A to C
+Move disk 1 from B to C
+Move disk 2 from B to A
+Move disk 1 from C to A
+Move disk 3 from B to C
+Move disk 1 from A to B
+Move disk 2 from A to C
+Move disk 1 from B to C
+Total number of times the disk is moved: 15
+
+
+---
+
+C++ Code (Without Comments, Using Recursion)
+
+#include <iostream>
+using namespace std;
+
+int cnt = 0;
+
+void tower(int n, char from, char aux, char to)
+{
+    if (n == 0)
+        return;
+
+    tower(n - 1, from, to, aux);
+    cout << "Move disk " << n << " from " << from << " to " << to << endl;
+    cnt++;
+    tower(n - 1, aux, from, to);
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    tower(n, 'A', 'B', 'C');
+    cout << "Total number of times the disk is moved: " << cnt;
+    return 0;
+}
