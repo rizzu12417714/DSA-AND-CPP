@@ -1,0 +1,89 @@
+Problem Paragraph
+
+You are working as a program developer at a renowned sports academy.
+As part of the academy’s performance evaluation system, you are tasked with 
+sorting athletes based on their heights in descending order.
+
+You are given a list of athlete names along with their corresponding heights.
+Your task is to implement the Quick Sort algorithm to sort the athletes’ names in
+descending order based on their heights.
+Input Format
+The first line contains an integer N, representing the number of athletes.
+The next N lines contain the athlete’s name followed by their height, separated by a space.
+Output Format
+Print the athletes’ names sorted in descending order of their heights, separated by spaces.
+Constraints
+N = names.length = heights.length
+Athlete names contain only uppercase and lowercase English letters
+All height values are distinct
+Sample Test Case 1
+Input
+6
+Mary 180
+John 165
+Emma 170
+Joey 157
+Tom 169
+Cruise 175
+
+Output
+Mary Cruise Emma Tom John Joey
+Sample Test Case 2
+Input
+3
+Alice 155
+Bob 185
+David 150
+Output
+Bob Alice David
+
+
+
+C++ Code 
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+void swap(string &a, string &b, int &x, int &y) {
+    string t1 = a;
+    a = b;
+    b = t1;
+    int t2 = x;
+    x = y;
+    y = t2;
+}
+
+int partition(string names[], int h[], int low, int high) {
+    int pivot = h[high];
+    int i = low - 1;
+    for(int j = low; j < high; j++) {
+        if(h[j] > pivot) {
+            i++;
+            swap(names[i], names[j], h[i], h[j]);
+        }
+    }
+    swap(names[i + 1], names[high], h[i + 1], h[high]);
+    return i + 1;
+}
+
+void quickSort(string names[], int h[], int low, int high) {
+    if(low < high) {
+        int pi = partition(names, h, low, high);
+        quickSort(names, h, low, pi - 1);
+        quickSort(names, h, pi + 1, high);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    string names[n];
+    int heights[n];
+    for(int i = 0; i < n; i++)
+        cin >> names[i] >> heights[i];
+    quickSort(names, heights, 0, n - 1);
+    for(int i = 0; i < n; i++)
+        cout << names[i] << " ";
+    return 0;
+}
