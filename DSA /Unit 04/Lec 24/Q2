@@ -1,0 +1,79 @@
+Problem Paragraph
+
+You are working as a software developer in a logistics company.
+Your task is to create a program that efficiently sorts a list of packages based on
+their weights using the Quick Sort algorithm.
+Each package has a weight value, and the packages must be arranged in ascending
+order according to their weights.
+
+
+---
+
+Input Format
+
+The first line contains an integer N, representing the number of packages.
+
+The second line contains N space-separated integers, representing the weights of the packages.
+Output Format
+
+Print N integers representing the package weights sorted in ascending order, separated by spaces.
+
+Constraints
+1 ≤ N ≤ 10
+1 ≤ weight ≤ 100
+
+Sample Test Case
+Input
+4
+15 25 35 10
+Output
+10 15 25 35
+
+
+
+C++ Code
+
+
+#include <iostream>
+using namespace std;
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    for(int j = low; j < high; j++) {
+        if(arr[j] < pivot) {
+            i++;
+            int t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+        }
+    }
+    int t = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = t;
+    return i + 1;
+}
+
+void quickSort(int arr[], int low, int high) {
+    if(low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+void printArray(int arr[], int size) {
+    for(int i = 0; i < size; i++)
+        cout << arr[i] << " ";
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int arr[n];
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
+    quickSort(arr, 0, n - 1);
+    printArray(arr, n);
+    return 0;
+}
