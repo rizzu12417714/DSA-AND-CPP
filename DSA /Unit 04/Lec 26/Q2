@@ -1,0 +1,94 @@
+📘 Problem Paragraph
+
+Dev is learning about binary trees and their traversals. He is particularly
+interested in the in-order traversal of a binary tree. Dev decides to write a
+program that takes a set of integers as input, constructs a binary search tree using these
+values, and then performs an in-order traversal of the tree. The program should print the 
+values of the nodes as they are visited during the traversal.
+
+
+
+---
+
+📌 Code Constraints
+
+1 ≤ N ≤ 15
+All node values are unique
+Node values are positive integers
+
+
+---
+
+🧪 Sample Test Case 1
+
+Input
+
+4
+17 23 65 24
+
+Output
+
+17 23 24 65
+
+
+---
+
+🧪 Sample Test Case 2
+
+Input
+
+6
+78 22 30 12 34 27
+
+Output
+
+12 22 27 30 34 78
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* createNode(int data) {
+    Node* newNode = new Node;
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+Node* insertNode(Node* root, int data) {
+    if(root == NULL)
+        return createNode(data);
+    if(data < root->data)
+        root->left = insertNode(root->left, data);
+    else
+        root->right = insertNode(root->right, data);
+    return root;
+}
+
+void inorderTraversal(Node* root) {
+    if(root == NULL)
+        return;
+    inorderTraversal(root->left);
+    cout << root->data << " ";
+    inorderTraversal(root->right);
+}
+
+int main() {
+    int n, data;
+    cin >> n;
+    Node* root = NULL;
+    for(int i = 0; i < n; i++) {
+        cin >> data;
+        root = insertNode(root, data);
+    }
+    inorderTraversal(root);
+    return 0;
+}
