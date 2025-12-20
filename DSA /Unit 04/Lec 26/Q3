@@ -1,0 +1,116 @@
+📘 Problem Statement (Paragraph)
+
+Athulya needs a program that constructs a binary tree from a given array 
+of integers and prints its in-order traversal. The program takes an integer n as 
+input, followed by n integers representing the elements of the array.
+The binary tree is constructed using the array elements in level order, 
+and then the in-order traversal of the constructed binary tree is printed.
+
+
+---
+
+📥 Input Format
+
+The first line consists of an integer n, representing the number of elements in the array.
+The second line consists of n space-separated integers, representing the elements of the array.
+
+
+---
+
+📤 Output Format
+
+The output prints a single line containing the in-order traversal of the 
+constructed binary tree in the format:
+
+Inorder traversal: <inorder sequence>
+
+
+---
+
+📌 Code Constraints
+
+The input integers should be unique
+
+1 ≤ n ≤ 15
+
+1 ≤ array elements ≤ 150
+
+
+
+---
+
+🧪 Sample Test Case 1
+
+Input
+
+6
+1 2 3 4 5 6
+
+Output
+
+Inorder traversal: 4 2 5 1 6 3
+
+
+---
+
+🧪 Sample Test Case 2
+
+Input
+
+5
+5 3 7 2 4
+
+Output
+
+Inorder traversal: 2 3 4 5 7
+
+
+---
+
+ C++ Code 
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* newNode(int v) {
+    Node* temp = new Node();
+    temp->data = v;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+Node* insertLevelOrder(int arr[], int start, int size) {
+    if(start >= size)
+        return NULL;
+    Node* temp = newNode(arr[start]);
+    temp->left = insertLevelOrder(arr, 2 * start + 1, size);
+    temp->right = insertLevelOrder(arr, 2 * start + 2, size);
+    return temp;
+}
+
+void printInorder(Node* node) {
+    if(node == NULL)
+        return;
+    printInorder(node->left);
+    cout << node->data << " ";
+    printInorder(node->right);
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int arr[n];
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
+    Node* root = insertLevelOrder(arr, 0, n);
+    cout << "Inorder traversal: ";
+    printInorder(root);
+    return 0;
+}
