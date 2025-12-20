@@ -1,1 +1,95 @@
-hsh
+Problem Paragraph
+You are given a list of purchased item values from an e-commerce platform. 
+Your task is to analyze the frequency of each item and then display the items sorted
+based on their frequency in descending order. If two or more items have the same frequency, 
+they must be sorted in descending order of their values. Each item should appear 
+in the output as many times as it appears in the input.
+The sorting process must be implemented using the merge sort algorithm.
+Input Format
+The first line contains an integer n, representing the number of items.
+The second line contains n space-separated integers, representing the purchased items.
+Output Format
+Print the items in a single line, separated by spaces.
+Items must be sorted:
+First by frequency (descending)
+If frequency is same, by value (descending)
+Sample Test Case
+Input
+6
+1 1 2 3 3 3
+Output
+3 3 3 1 1 2
+
+
+C++ Code 
+
+#include <iostream>
+using namespace std;
+
+struct Item {
+    int value;
+    int freq;
+};
+
+void merge(Item arr[], int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    Item L[n1], R[n2];
+    for(int i = 0; i < n1; i++) L[i] = arr[l + i];
+    for(int j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
+    int i = 0, j = 0, k = l;
+    while(i < n1 && j < n2) {
+        if(L[i].freq > R[j].freq || 
+          (L[i].freq == R[j].freq && L[i].value > R[j].value)) {
+            arr[k++] = L[i++];
+        } else {
+            arr[k++] = R[j++];
+        }
+    }
+    while(i < n1) arr[k++] = L[i++];
+    while(j < n2) arr[k++] = R[j++];
+}
+
+void mergeSort(Item arr[], int l, int r) {
+    if(l < r) {
+        int m = l + (r - l) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int a[n];
+    for(int i = 0; i < n; i++) cin >> a[i];
+
+    Item items[100];
+    int count = 0;
+
+    for(int i = 0; i < n; i++) {
+        bool found = false;
+        for(int j = 0; j < count; j++) {
+            if(items[j].value == a[i]) {
+                items[j].freq++;
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            items[count].value = a[i];
+            items[count].freq = 1;
+            count++;
+        }
+    }
+
+    mergeSort(items, 0, count - 1);
+
+    for(int i = 0; i < count; i++) {
+        for(int j = 0; j < items[i].freq; j++) {
+            cout << items[i].value << " ";
+        }
+    }
+    return 0;
+}
