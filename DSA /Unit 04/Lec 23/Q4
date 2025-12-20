@@ -1,0 +1,71 @@
+Problem Paragraph
+
+In a mystical land known as Eldoria, ancient wizards use magical runes to cast powerful spells.
+Each rune is represented by a single character, and its magical potency is determined by its ASCII value.
+For the spells to work correctly, the runes must be arranged in a specific order.
+Your task is to write a program that uses merge sort with recursion to arrange the magical 
+runes in descending order of their magical potency (ASCII value).
+Input Format
+The first line contains an integer n, representing the number of magical runes.
+The second line contains n space-separated characters, each representing a magical rune.
+Output Format
+Print a single line containing the magical runes sorted in descending order of ASCII
+value, separated by spaces.
+Constraints
+1 ≤ n ≤ 25
+Each character is a single uppercase or lowercase English letter
+Sample Test Case 1
+Input
+8
+G h I j K L m n
+Output
+n m h L K j I G
+Sample Test Case 2
+Input
+6
+a Z A B M Z
+Output
+a Z Z M B A
+
+
+
+
+C++ Code 
+
+#include <iostream>
+using namespace std;
+
+void merge(char a[], int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    char L[n1], R[n2];
+    for(int i = 0; i < n1; i++) L[i] = a[l + i];
+    for(int j = 0; j < n2; j++) R[j] = a[m + 1 + j];
+    int i = 0, j = 0, k = l;
+    while(i < n1 && j < n2) {
+        if(L[i] >= R[j]) a[k++] = L[i++];
+        else a[k++] = R[j++];
+    }
+    while(i < n1) a[k++] = L[i++];
+    while(j < n2) a[k++] = R[j++];
+}
+
+void mergeSort(char a[], int l, int r) {
+    if(l < r) {
+        int m = (l + r) / 2;
+        mergeSort(a, l, m);
+        mergeSort(a, m + 1, r);
+        merge(a, l, m, r);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    char a[n];
+    for(int i = 0; i < n; i++) cin >> a[i];
+    mergeSort(a, 0, n - 1);
+    for(int i = 0; i < n; i++)
+        cout << a[i] << " ";
+    return 0;
+}
