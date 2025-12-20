@@ -1,0 +1,97 @@
+Problem Paragraph (Exam Ready)
+
+Divu wants a program to analyze a binary tree by traversing it in two different ways.
+The program first reads an integer n representing the number of nodes,
+followed by n integers representing the node values. The binary tree is constructed 
+using level order insertion. The program then performs two traversals: forward in-order
+traversal, where nodes are visited in left-root-right order, and reverse in-order traversal,
+where nodes are visited in right-root-left order. Finally, the traversal results are displayed.
+
+
+---
+
+Code Constraints
+
+1 ≤ n ≤ 15
+1 ≤ Node values ≤ 50
+All input values are unique
+
+Sample Test Case 1
+
+Input
+
+5
+9 8 7 6 5
+
+Output
+
+6 8 5 9 7
+7 9 5 8 6
+
+
+---
+
+Sample Test Case 2
+
+Input
+
+8
+1 2 3 4 5 6 7 8
+
+Output
+
+8 4 2 5 1 6 3 7
+7 3 6 1 5 2 4 8
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int v) : data(v), left(nullptr), right(nullptr) {}
+};
+
+Node* insertLevelOrder(int arr[], Node* root, int i, int n) {
+    if(i < n) {
+        Node* temp = new Node(arr[i]);
+        root = temp;
+        root->left = insertLevelOrder(arr, root->left, 2*i + 1, n);
+        root->right = insertLevelOrder(arr, root->right, 2*i + 2, n);
+    }
+    return root;
+}
+
+void printInorder(Node* node) {
+    if(node == nullptr) return;
+    printInorder(node->left);
+    cout << node->data << " ";
+    printInorder(node->right);
+}
+
+void printInorderReverse(Node* node) {
+    if(node == nullptr) return;
+    printInorderReverse(node->right);
+    cout << node->data << " ";
+    printInorderReverse(node->left);
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int* arr = new int[n];
+    for(int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Node* root = nullptr;
+    root = insertLevelOrder(arr, root, 0, n);
+    printInorder(root);
+    cout << endl;
+    printInorderReverse(root);
+    delete[] arr;
+    return 0;
+}
