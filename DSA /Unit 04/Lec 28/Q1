@@ -1,0 +1,150 @@
+📘 Problem Statement
+
+Kathir is learning about Binary Search Trees (BST) in his computer science class. 
+He has implemented a program to construct a BST by inserting integers and then 
+calculate the sum of all leaf nodes in the tree.
+The input ends when -1 is encountered. The program should compute and display the 
+sum of all leaf nodes present in the BST.
+
+
+---
+
+📥 Input Format
+
+The input consists of a series of positive integers, each on a separate line.
+
+Input terminates when -1 is entered.
+
+All input integers are unique.
+
+
+
+---
+
+📤 Output Format
+
+Print the sum of all leaf nodes in the BST in the format:
+Sum of all leaf nodes are X
+
+
+
+---
+
+📌 Code Constraints
+
+All input integers are positive.
+
+Number of nodes ≤ 100.
+
+Value of each node ≤ 100.
+
+
+
+---
+
+🧪 Sample Test Case 1
+
+Input
+
+5
+3
+7
+2
+4
+9
+-1
+
+Output
+
+Sum of all leaf nodes are 15
+
+
+---
+
+🧪 Sample Test Case 2
+
+Input
+
+6
+3
+1
+4
+2
+-1
+
+Output
+
+Sum of all leaf nodes are 6
+
+
+---
+
+ C++ Code 
+
+#include <iostream>
+using namespace std;
+
+struct node {
+    int data;
+    struct node* left;
+    struct node* right;
+};
+
+struct node* root = NULL;
+
+struct node* createNode(int d) {
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
+    newnode->data = d;
+    newnode->left = NULL;
+    newnode->right = NULL;
+    return newnode;
+}
+
+void append(int d) {
+    struct node* temp = root;
+    struct node* parent = NULL;
+    struct node* newnode = createNode(d);
+
+    if (root == NULL) {
+        root = newnode;
+        return;
+    }
+
+    while (temp != NULL) {
+        parent = temp;
+        if (d < temp->data)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+
+    if (d < parent->data)
+        parent->left = newnode;
+    else
+        parent->right = newnode;
+}
+
+void leafsum(struct node* root, int* sum) {
+    if (root == NULL)
+        return;
+
+    if (root->left == NULL && root->right == NULL)
+        *sum += root->data;
+
+    leafsum(root->left, sum);
+    leafsum(root->right, sum);
+}
+
+int main() {
+    int d;
+    do {
+        cin >> d;
+        if (d > 0)
+            append(d);
+    } while (d != -1);
+
+    int sum = 0;
+    leafsum(root, &sum);
+    cout << "Sum of all leaf nodes are " << sum;
+    return 0;
+}
