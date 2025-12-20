@@ -1,0 +1,94 @@
+Problem Paragraph
+
+Ram is organizing a literary competition at a book club where participants submit their 
+favorite quotes. To prepare a proper display of quotes for the event, Ram wants to sort them in
+descending alphabetical order. Each quote is represented as a string. Write a program to read the
+list of quotes and sort them in descending order using the Quick Sort algorithm.
+
+Input Format
+
+The first line contains an integer n, representing the number of quotes.
+The second line contains n space-separated strings, each representing a quote.
+
+
+---
+
+Output Format
+
+The output displays the sorted list of quotes in descending alphabetical order, separated by spaces.
+
+
+---
+
+Code Constraints
+
+1 ≤ n ≤ 10
+Each quote is a non-empty string.
+Each quote may contain uppercase and lowercase English letters.
+
+
+---
+
+Sample Test Case
+
+Input
+
+2
+Cap Cat
+
+Output
+
+Cat Cap
+
+
+---
+
+C++ Code 
+
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int partition(string arr[], int low, int high) {
+    string pivot = arr[high];
+    int i = low - 1;
+    for(int j = low; j < high; j++) {
+        if(arr[j] > pivot) {
+            i++;
+            string t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+        }
+    }
+    string t = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = t;
+    return i + 1;
+}
+
+void quickSort(string arr[], int low, int high) {
+    if(low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    string *arr = new string[n];
+    for(int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    quickSort(arr, 0, n - 1);
+    for(int i = 0; i < n; i++) {
+        cout << arr[i];
+        if(i != n - 1) cout << " ";
+    }
+    delete[] arr;
+    return 0;
+}
