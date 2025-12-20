@@ -1,0 +1,140 @@
+📘 Problem Statement
+
+In a binary tree where each node contains a single character, the tree is constructed by
+inserting characters in the given order.
+After constructing the tree, a post-order traversal is performed to print the characters.
+Finally, the memory allocated for the binary tree is released properly.
+
+
+---
+
+📥 Input Format
+
+The first line contains an integer n, representing the number of characters.
+
+The second line contains n characters, which are inserted into the binary tree in the given order.
+
+
+
+---
+
+📤 Output Format
+
+Print a single line containing the post-order traversal of the binary tree.
+
+Characters are separated by a space.
+
+
+
+---
+
+📌 Code Constraints
+
+1 ≤ n ≤ 26
+
+
+
+---
+
+🧪 Sample Test Case 1
+
+Input
+
+6
+a f d e c b
+
+Output
+
+e c f b d a
+
+
+---
+
+🧪 Sample Test Case 2
+
+Input
+
+5
+a b c d e
+
+Output
+
+d e b c a
+
+
+---
+
+ C++ Code 
+
+#include <iostream>
+#include <queue>
+using namespace std;
+
+struct TreeNode {
+    char data;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(char value) : data(value), left(nullptr), right(nullptr) {}
+};
+
+TreeNode* insert(TreeNode* root, char data) {
+    if (root == nullptr)
+        return new TreeNode(data);
+
+    queue<TreeNode*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        TreeNode* temp = q.front();
+        q.pop();
+
+        if (temp->left != nullptr)
+            q.push(temp->left);
+        else {
+            temp->left = new TreeNode(data);
+            return root;
+        }
+
+        if (temp->right != nullptr)
+            q.push(temp->right);
+        else {
+            temp->right = new TreeNode(data);
+            return root;
+        }
+    }
+    return root;
+}
+
+void postOrder(TreeNode* root) {
+    if (root == nullptr)
+        return;
+    postOrder(root->left);
+    postOrder(root->right);
+    cout << root->data << " ";
+}
+
+void freeTree(TreeNode* root) {
+    if (root == nullptr)
+        return;
+    freeTree(root->left);
+    freeTree(root->right);
+    delete root;
+}
+
+int main() {
+    TreeNode* root = nullptr;
+    int n;
+    char data;
+
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> data;u
+        root = insert(root, data);
+    }
+
+    postOrder(root);
+    cout << endl;
+
+    freeTree(root);
+    return 0;
+}
