@@ -1,0 +1,126 @@
+📘 Problem Statement
+
+John is building a binary tree where nodes are inserted based on user input.
+The tree inserts elements level-wise at the next available position.
+The program keeps accepting integer inputs until -1 is entered.
+After constructing the binary tree, the program prints the post-order traversal of the tree.
+
+
+---
+
+📥 Input Format
+
+The input consists of space-separated integers representing the data to be inserted into the binary tree.
+The input terminates when -1 is entered.
+
+
+---
+
+📤 Output Format
+
+The output prints the post-order traversal of the binary tree.
+All values are printed in a single line separated by spaces.
+
+
+---
+
+📌 Code Constraints
+
+1 ≤ data ≤ 100
+
+
+
+---
+
+🧪 Sample Test Case 1
+
+Input
+
+5 6 7 8 9 -1
+
+Output
+
+8 9 6 7 5
+
+
+---
+
+🧪 Sample Test Case 2
+
+Input
+
+1 7 9 5 6 -1
+
+Output
+
+5 6 7 9 1
+
+
+---
+
+ C++ Code 
+
+#include <iostream>
+#include <queue>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* root = nullptr;
+
+Node* createNode(int d) {
+    Node* newNode = new Node();
+    newNode->data = d;
+    newNode->left = nullptr;
+    newNode->right = nullptr;
+    return newNode;
+}
+
+void append(int d) {
+    Node* newNode = createNode(d);
+    if(root == nullptr) {
+        root = newNode;
+        return;
+    }
+    queue<Node*> q;
+    q.push(root);
+    while(!q.empty()) {
+        Node* temp = q.front();
+        q.pop();
+        if(temp->left != nullptr)
+            q.push(temp->left);
+        else {
+            temp->left = newNode;
+            return;
+        }
+        if(temp->right != nullptr)
+            q.push(temp->right);
+        else {
+            temp->right = newNode;
+            return;
+        }
+    }
+}
+
+void postorder(Node* root) {
+    if(root == nullptr)
+        return;
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->data << " ";
+}
+
+int main() {
+    int d;
+    do {
+        cin >> d;
+        if(d > 0)
+            append(d);
+    } while(d != -1);
+    postorder(root);
+    return 0;
+}
