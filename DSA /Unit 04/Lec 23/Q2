@@ -1,0 +1,91 @@
+Problem Paragraph
+
+Arsha is working on a project where binary data plays a crucial role in processing.
+To optimize data handling, Arsha needs to sort an array that contains only 
+two types of elements: 0s and 1s.
+To ensure efficiency, the sorting must be performed using the merge sort
+algorithm along with a recursive approach.
+If the input array contains any element other than 0 or 1, the program 
+should report it as invalid input.
+Otherwise, the binary array must be sorted in ascending order.
+Input Format
+The first line contains an integer n, representing the number of elements in the array.
+The second line contains n space-separated integers, where each integer is either 0 or 1.
+Output Format
+If the input contains any value other than 0 or 1, print
+Invalid input
+Otherwise, print a single line containing n space-separated integers,
+representing the sorted array in ascending order.
+Sample Test Case 1
+Input
+5
+1 0 1 0 1
+Output
+0 0 1 1 1
+Sample Test Case 2
+Input
+3
+1 0 2
+Output
+Invalid input
+
+Sample Test Case 3
+Input
+4
+1 1 1 1
+Output
+1 1 1 1
+Sample Test Case 4
+Input
+2
+0 0
+Output
+0 0
+
+
+C++ Code 
+
+
+#include <iostream>
+using namespace std;
+
+void merge(int a[], int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    int L[n1], R[n2];
+    for(int i = 0; i < n1; i++) L[i] = a[l + i];
+    for(int j = 0; j < n2; j++) R[j] = a[m + 1 + j];
+    int i = 0, j = 0, k = l;
+    while(i < n1 && j < n2) {
+        if(L[i] <= R[j]) a[k++] = L[i++];
+        else a[k++] = R[j++];
+    }
+    while(i < n1) a[k++] = L[i++];
+    while(j < n2) a[k++] = R[j++];
+}
+
+void mergeSort(int a[], int l, int r) {
+    if(l < r) {
+        int m = (l + r) / 2;
+        mergeSort(a, l, m);
+        mergeSort(a, m + 1, r);
+        merge(a, l, m, r);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int a[n];
+    for(int i = 0; i < n; i++) {
+        cin >> a[i];
+        if(a[i] != 0 && a[i] != 1) {
+            cout << "Invalid input";
+            return 0;
+        }
+    }
+    mergeSort(a, 0, n - 1);
+    for(int i = 0; i < n; i++)
+        cout << a[i] << " ";
+    return 0;
+}
