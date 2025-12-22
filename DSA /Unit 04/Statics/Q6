@@ -1,0 +1,74 @@
+🟦 Problem Statement
+Lucas is an engineer working with a robot to move disks between three rods in a factory.
+Each rod has a set of disks, where each disk is larger than the one above it.
+The goal is to move all the disks from the source rod to the target rod, using the auxiliary rod for temporary storage, while following these rules:
+Only one disk can be moved at a time.
+A larger disk cannot be placed on top of a smaller disk.
+Lucas needs to find how many moves are required and print each move performed by the robot.
+Help Lucas by implementing a solution to calculate the total number of moves and print the sequence of moves.
+🟦 Input Format
+The input contains an integer n, representing the number of disks.
+🟦 Output Format
+For each move, print the following format:
+Copy code
+
+move disk X from rod source to rod destination
+where X is the disk number being moved.
+After printing all the moves, print the total number of moves on a new line.
+🟦 Code Constraints
+�
+The rods are labeled as "1", "2", and "3"
+🟦 Sample Test Case 1
+Input
+Copy code
+
+2
+Output
+Copy code
+
+move disk 1 from rod 1 to rod 2
+move disk 2 from rod 1 to rod 3
+move disk 1 from rod 2 to rod 3
+3
+🟦 Sample Test Case 2
+Input
+Copy code
+
+3
+Output
+Copy code
+
+move disk 1 from rod 1 to rod 3
+move disk 2 from rod 1 to rod 2
+move disk 1 from rod 3 to rod 2
+move disk 3 from rod 1 to rod 3
+move disk 1 from rod 2 to rod 1
+move disk 2 from rod 2 to rod 3
+move disk 1 from rod 1 to rod 3
+7
+🟦 C++ Code 
+
+#include <iostream>
+using namespace std;
+
+int totalMoves = 0;
+
+void moveDisks(int n, int source, int auxiliary, int destination) {
+    if (n == 1) {
+        cout << "move disk 1 from rod " << source << " to rod " << destination << endl;
+        totalMoves++;
+        return;
+    }
+    moveDisks(n - 1, source, destination, auxiliary);
+    cout << "move disk " << n << " from rod " << source << " to rod " << destination << endl;
+    totalMoves++;
+    moveDisks(n - 1, auxiliary, source, destination);
+}
+
+int main() {
+    int n;
+    cin >> n;
+    moveDisks(n, 1, 2, 3);
+    cout << totalMoves;
+    return 0;
+}
