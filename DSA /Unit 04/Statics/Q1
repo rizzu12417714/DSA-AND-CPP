@@ -1,0 +1,158 @@
+🟦 Problem Paragraph
+Arun is exploring operations on Binary Search Trees (BST).
+He is given an unsorted array of distinct integers and constructs a BST by inserting the elements in the order they appear in the array.
+After constructing the BST, he performs two operations that modify the structure of the tree: insertion of a new key and deletion of an existing key.
+After each operation, the BST is traversed using level-order traversal to display the updated structure.
+🟦 Input Format
+The first line contains an integer N, representing the number of initial keys in the BST.
+The second line contains N space-separated integers, representing the initial keys.
+The third line contains an integer X, representing the key to be inserted into the BST.
+The fourth line contains an integer Y, representing the key to be deleted from the BST.
+🟦 Output Format
+The first line prints
+Initial BST: followed by the level-order traversal of the initial BST.
+The second line prints
+BST after inserting a new node X: followed by the level-order traversal after insertion.
+The third line prints
+BST after deleting node Y: followed by the level-order traversal after deletion.
+🟦 Code Constraints
+�
+� initial keys �
+�
+🟦 Sample Test Case 1
+Input
+Copy code
+
+5
+25 14 56 28 12
+34
+12
+Output
+Copy code
+
+Initial BST: 25 14 56 12 28
+BST after inserting a new node 34: 25 14 56 12 28 34
+BST after deleting node 12: 25 14 56 28 34
+🟦 Sample Test Case 2
+Input
+Copy code
+
+6
+5 1 4 6 9 8
+7
+9
+Output
+Copy code
+
+Initial BST: 5 1 6 4 9 8
+BST after inserting a new node 7: 5 1 6 4 9 8 7
+BST after deleting node 9: 5 1 6 4 8 7
+
+
+
+🟦 C++ Code 
+
+#include <iostream>
+#include <queue>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* insert(Node* root, int val) {
+    if (root == nullptr) {
+        Node* temp = new Node();
+        temp->data = val;
+        temp->left = nullptr;
+        temp->right = nullptr;
+        return temp;
+    }
+    if (val < root->data)
+        root->left = insert(root->left, val);
+    else
+        root->right = insert(root->right, val);
+    return root;
+}
+
+Node* minValueNode(Node* node) {
+    Node* current = node;
+    while (current && current->left != nullptr)
+        current = current->left;
+    return current;
+}
+
+Node* deleteNode(Node* root, int key) {
+    if (root == nullptr)
+        return root;
+
+    if (key < root->data)
+        root->left = deleteNode(root->left, key);
+    else if (key > root->data)
+        root->right = deleteNode(root->right, key);
+    else {
+        if (root->left == nullptr) {
+            Node* temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if (root->right == nullptr) {
+            Node* temp = root->left;
+            delete root;
+            return temp;
+        }
+        Node* temp = minValueNode(root->right);
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
+}
+
+void levelOrder(Node* root) {
+    if (root == nullptr)
+        return;
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        Node* temp = q.front();
+        q.pop();
+        cout << temp->data << " ";
+        if (temp->left)
+            q.push(temp->left);
+        if (temp->right)
+            q.push(temp->right);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    Node* root = nullptr;
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        root = insert(root, x);
+    }
+
+    int X, Y;
+    cin >> X;
+    cin >> Y;
+
+    cout << "Initial BST: ";
+    levelOrder(root);
+    cout << endl;
+
+    root = insert(root, X);
+    cout << "BST after inserting a new node " << X << ": ";
+    levelOrder(root);
+    cout << endl;
+
+    root = deleteNode(root, Y);
+    cout << "BST after deleting node " << Y << ": ";
+    levelOrder(root);
+
+    return 0;
+}
