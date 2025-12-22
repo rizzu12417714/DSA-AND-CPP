@@ -1,0 +1,160 @@
+🟦 Problem Paragraph
+John is organizing data in a Binary Search Tree (BST) for quick retrieval.
+He needs a program that constructs a BST using given elements and then performs recursive inorder, preorder, and postorder traversals to display the elements in different orders.
+The program should allow the user to:
+Insert elements into the BST
+Display inorder traversal
+Display preorder traversal
+Display postorder traversal
+Exit the program
+🟦 Input Format
+The input consists of integers representing the choice and the corresponding operation.
+Choice 1:
+Enter the number of elements n, followed by n integers to be inserted into the BST.
+Choice 2:
+Print the inorder traversal.
+Choice 3:
+Print the preorder traversal.
+Choice 4:
+Print the postorder traversal.
+Choice 5:
+Exit the program.
+The program continues until choice 5 is entered.
+🟦 Output Format
+The output prints the traversal results based on the user’s choice.
+Inorder: <elements>
+Preorder: <elements>
+Postorder: <elements>
+Refer to the sample output for exact formatting.
+🟦 Code Constraints
+�
+� BST elements �
+🟦 Sample Test Case 1
+Input
+Copy code
+
+1
+9
+7 9 6 3 2 1 4 5 8
+2
+4
+5
+Output
+Copy code
+
+Inorder: 1 2 3 4 5 6 7 8 9
+Postorder: 1 2 5 4 3 6 8 9 7
+🟦 Sample Test Case 2
+Input
+Copy code
+
+1
+15
+100 90 80 70 60 85 75 95 110 105 120 115 130 125 135
+2
+3
+4
+5
+Output
+Copy code
+
+Inorder: 60 70 75 80 85 90 95 100 105 110 115 120 125 130 135
+Preorder: 100 90 80 70 60 75 85 95 110 105 120 115 130 125 135
+Postorder: 60 75 70 85 80 95 90 105 115 125 135 130 120 110 100
+
+
+🟦 C++ Code 
+
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+struct tnode {
+    int data;
+    tnode* left;
+    tnode* right;
+};
+
+tnode* createBST(tnode* root, int item) {
+    if (root == NULL) {
+        tnode* temp = (tnode*)malloc(sizeof(tnode));
+        temp->data = item;
+        temp->left = NULL;
+        temp->right = NULL;
+        return temp;
+    }
+    if (item < root->data)
+        root->left = createBST(root->left, item);
+    else
+        root->right = createBST(root->right, item);
+    return root;
+}
+
+void inorder(tnode* root) {
+    if (root == NULL)
+        return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+void preorder(tnode* root) {
+    if (root == NULL)
+        return;
+    cout << root->data << " ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void postorder(tnode* root) {
+    if (root == NULL)
+        return;
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->data << " ";
+}
+
+int main() {
+    tnode* root = NULL;
+    int choice, item, n;
+
+    do {
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                root = NULL;
+                cin >> n;
+                for (int i = 1; i <= n; i++) {
+                    cin >> item;
+                    root = createBST(root, item);
+                }
+                break;
+
+            case 2:
+                cout << "Inorder: ";
+                inorder(root);
+                cout << endl;
+                break;
+
+            case 3:
+                cout << "Preorder: ";
+                preorder(root);
+                cout << endl;
+                break;
+
+            case 4:
+                cout << "Postorder: ";
+                postorder(root);
+                cout << endl;
+                break;
+
+            case 5:
+                break;
+
+            default:
+                break;
+        }
+    } while (choice != 5);
+
+    return 0;
+}
