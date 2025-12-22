@@ -1,0 +1,96 @@
+🟦 Problem Paragraph
+Ravi is spending quality time with his children by teaching them how to arrange characters in ascending order.
+To make learning more interactive, Ravi wants to develop a program that takes a list of characters
+and sorts them in ascending order based on their ASCII values.
+The sorting operation must be implemented using the Quick Sort algorithm.
+🟦 Input Format
+The first line contains an integer n, representing the number of characters.
+The second line contains n space-separated characters, which may be lowercase or uppercase letters.
+🟦 Output Format
+Print a single line containing the n characters sorted in ascending order according to ASCII values, separated by spaces.
+🟦 Code Constraints
+�
+Characters may be lowercase or uppercase English letters.
+🟦 Sample Test Case 1
+Input
+Copy code
+
+5
+s A a n h
+Output
+Copy code
+
+A a h n s
+🟦 Sample Test Case 2
+Input
+Copy code
+
+6
+h g f d v a
+Output
+Copy code
+
+a d f g h v
+🟦 Sample Test Case 3
+Input
+Copy code
+
+5
+h a p p y
+Output
+Copy code
+
+a h p p y
+
+
+
+
+🟦 C++ Code (No Comments)
+
+
+
+#include <iostream>
+using namespace std;
+
+int partition(char arr[], int low, int high) {
+    char pivot = arr[high];
+    int i = low - 1;
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            char temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    char temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+    return i + 1;
+}
+
+void quickSort(char arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    char characters[n];
+    for (int i = 0; i < n; i++) {
+        cin >> characters[i];
+    }
+
+    quickSort(characters, 0, n - 1);
+
+    for (int i = 0; i < n; i++) {
+        cout << characters[i] << " ";
+    }
+
+    return 0;
+}
