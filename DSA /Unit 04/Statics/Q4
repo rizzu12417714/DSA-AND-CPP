@@ -1,0 +1,209 @@
+🟦 Problem Paragraph
+Implement a Student Database Management System using a Binary Search Tree (BST).
+Each student record contains a roll number, name, and grades.
+The BST is organized using the roll number as the key.
+The system should support the following operations:
+Add a student
+Delete a student using roll number
+Search for a student using roll number
+Display all students in ascending order of roll numbers using in-order traversal
+Exit the program
+All grades must be displayed rounded to two decimal places.
+🟦 Input Format
+The first line contains an integer choice, representing the operation to perform.
+Choice 1 (Add Student)
+Next three lines contain:
+Roll number (integer)
+Name (string)
+Grades (float)
+Choice 2 (Delete Student)
+Next line contains the roll number to delete.
+Choice 3 (Search Student)
+Next line contains the roll number to search.
+Choice 4 (Display Database)
+No additional input.
+Choice 5 (Exit Program)
+No additional input.
+The program continues until choice 5 is entered.
+🟦 Output Format
+For Delete Student:
+Student not found. if the roll number does not exist.
+For Search Student:
+If found:
+Student found - Roll Number: <roll>, Name: <name>, Grades: <grades>
+Else:
+Student not found.
+For Display Database:
+Copy code
+
+Student Database (inorder):
+Roll Number: <roll>, Name: <name>, Grades: <grades>
+For Exit Program:
+Exiting program.
+🟦 Code Constraints
+� roll number �
+� length(name) �
+� grades �
+� total students �
+🟦 Sample Test Case (One Combined Flow)
+Input
+Copy code
+
+1
+101
+John
+85.5
+1
+102
+Jane
+92.0
+1
+105
+Bob
+78.3
+2
+105
+4
+5
+Output
+Copy code
+
+Student Database (inorder):
+Roll Number: 101, Name: John, Grades: 85.50
+Roll Number: 102, Name: Jane, Grades: 92.00
+Exiting program.
+🟦 C++ Code 
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+struct Node {
+    int roll;
+    string name;
+    float grade;
+    Node* left;
+    Node* right;
+};
+
+Node* createNode(int r, string n, float g) {
+    Node* temp = new Node();
+    temp->roll = r;
+    temp->name = n;
+    temp->grade = g;
+    temp->left = nullptr;
+    temp->right = nullptr;
+    return temp;
+}
+
+Node* insert(Node* root, int r, string n, float g) {
+    if (root == nullptr)
+        return createNode(r, n, g);
+    if (r < root->roll)
+        root->left = insert(root->left, r, n, g);
+    else if (r > root->roll)
+        root->right = insert(root->right, r, n, g);
+    return root;
+}
+
+Node* findMin(Node* root) {
+    while (root && root->left)
+        root = root->left;
+    return root;
+}
+
+Node* deleteNode(Node* root, int r, bool &found) {
+    if (root == nullptr)
+        return nullptr;
+
+    if (r < root->roll)
+        root->left = deleteNode(root->left, r, found);
+    else if (r > root->roll)
+        root->right = deleteNode(root->right, r, found);
+    else {
+        found = true;
+        if (root->left == nullptr) {
+            Node* temp = root->right;
+            delete root;
+            return temp;
+        }
+        if (root->right == nullptr) {
+            Node* temp = root->left;
+            delete root;
+            return temp;
+        }
+        Node* temp = findMin(root->right);
+        root->roll = temp->roll;
+        root->name = temp->name;
+        root->grade = temp->grade;
+        root->right = deleteNode(root->right, temp->roll, found);
+    }
+    return root;
+}
+
+Node* search(Node* root, int r) {
+    if (root == nullptr || root->roll == r)
+        return root;
+    if (r < root->roll)
+        return search(root->left, r);
+    return search(root->right, r);
+}
+
+void inorder(Node* root) {
+    if (root == nullptr)
+        return;
+    inorder(root->left);
+    cout << "Roll Number: " << root->roll << ", Name: " << root->name
+         << ", Grades: " << fixed << setprecision(2) << root->grade << endl;
+    inorder(root->right);
+}
+
+int main() {
+    Node* root = nullptr;
+    int choice;
+
+    while (true) {
+        cin >> choice;
+
+        if (choice == 1) {
+            int r;
+            string n;
+            float g;
+            cin >> r >> n >> g;
+            root = insert(root, r, n, g);
+        }
+
+        else if (choice == 2) {
+            int r;
+            cin >> r;
+            bool found = false;
+            root = deleteNode(root, r, found);
+            if (!found)
+                cout << "Student not found." << endl;
+        }
+
+        else if (choice == 3) {
+            int r;
+            cin >> r;
+            Node* res = search(root, r);
+            if (res)
+                cout << "Student found - Roll Number: " << res->roll
+                     << ", Name: " << res->name
+                     << ", Grades: " << fixed << setprecision(2)
+                     << res->grade << endl;
+            else
+                cout << "Student not found." << endl;
+        }
+
+        else if (choice == 4) {
+            cout << "Student Database (inorder):" << endl;
+            inorder(root);
+        }
+
+        else if (choice == 5) {
+            cout << "Exiting program." << endl;
+            break;
+        }
+    }
+    return 0;
+}
