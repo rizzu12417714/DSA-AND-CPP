@@ -1,0 +1,84 @@
+🟦 Problem Paragraph
+You are given a collection of lowercase letters.
+Your task is to construct a Binary Search Tree (BST) using the given characters.
+After constructing the BST, perform an in-order traversal of the tree to
+display the characters in ascending alphabetical order.
+The output should display the characters separated by a single space.
+🟦 Input Format
+The first line contains a positive integer N, representing the number of letters.
+The second line contains N lowercase characters, representing the letters to be inserted into the BST.
+🟦 Output Format
+Print the in-order traversal of the BST.
+The characters should be displayed in ascending alphabetical order, separated by a single space.
+🟦 Code Constraints
+�
+All input characters will be lowercase English letters (a to z).
+🟦 Sample Test Case 1
+Input
+Copy code
+
+5
+k b a c m
+Output
+Copy code
+
+a b c k m
+🟦 Sample Test Case 2
+Input
+Copy code
+
+7
+y q w e g h k
+Output
+Copy code
+
+e g h k q w y
+🟦 C++ Code (Without Comments)
+Copy code
+Cpp
+#include <iostream>
+using namespace std;
+
+struct TreeNode {
+    char val;
+    TreeNode* left;
+    TreeNode* right;
+};
+
+TreeNode* insert(TreeNode* root, char val) {
+    if (root == nullptr) {
+        TreeNode* temp = new TreeNode();
+        temp->val = val;
+        temp->left = nullptr;
+        temp->right = nullptr;
+        return temp;
+    }
+    if (val < root->val)
+        root->left = insert(root->left, val);
+    else
+        root->right = insert(root->right, val);
+    return root;
+}
+
+void inorderTraversal(TreeNode* root) {
+    if (root == nullptr)
+        return;
+    inorderTraversal(root->left);
+    cout << root->val << " ";
+    inorderTraversal(root->right);
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    TreeNode* root = nullptr;
+    for (int i = 0; i < n; i++) {
+        char ch;
+        cin >> ch;
+        root = insert(root, ch);
+    }
+
+    inorderTraversal(root);
+    return 0;
+}
