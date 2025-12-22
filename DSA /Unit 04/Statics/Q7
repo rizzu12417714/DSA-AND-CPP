@@ -1,0 +1,130 @@
+🟦 Problem Statement
+Kamal is interested in managing a collection of integers using a Binary Search Tree (BST).
+He wants to write a program that constructs a BST from a given set of integers and then deletes all the nodes whose values are greater than the average value of all nodes in the BST.
+After deleting the required nodes, the program should display the remaining elements of the BST using in-order traversal.
+Help Kamal solve this problem.
+🟦 Input Format
+The first line consists of an integer N, representing the number of elements in the BST.
+The second line consists of N space-separated integers, representing the elements of the BST.
+🟦 Output Format
+Print the remaining integers in the BST after deleting all nodes with values greater than the average value.
+The output should be printed in in-order traversal, separated by a single space.
+🟦 Code Constraints
+�
+�
+🟦 Sample Test Case 1
+Input
+Copy code
+
+5
+10 20 30 40 50
+Output
+Copy code
+
+10 20 30
+🟦 Sample Test Case 2
+Input
+Copy code
+
+6
+20 52 65 98 74 57
+Output
+Copy code
+
+20 52 57
+
+
+
+
+🟦 C++ Code 
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* insert(Node* root, int data) {
+    if (root == NULL) {
+        Node* temp = new Node();
+        temp->data = data;
+        temp->left = NULL;
+        temp->right = NULL;
+        return temp;
+    }
+    if (data < root->data)
+        root->left = insert(root->left, data);
+    else
+        root->right = insert(root->right, data);
+    return root;
+}
+
+int sumNodes(Node* root) {
+    if (root == NULL)
+        return 0;
+    return root->data + sumNodes(root->left) + sumNodes(root->right);
+}
+
+int countNodes(Node* root) {
+    if (root == NULL)
+        return 0;
+    return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
+Node* deleteGreaterThanAverage(Node* root, int avg) {
+    if (root == NULL)
+        return NULL;
+
+    root->left = deleteGreaterThanAverage(root->left, avg);
+    root->right = deleteGreaterThanAverage(root->right, avg);
+
+    if (root->data > avg) {
+        if (root->left == NULL)
+            return root->right;
+        if (root->right == NULL)
+            return root->left;
+
+        Node* temp = root->right;
+        while (temp->left != NULL)
+            temp = temp->left;
+        root->data = temp->data;
+        root->right = deleteGreaterThanAverage(root->right, avg);
+    }
+    return root;
+}
+
+void inorder(Node* root) {
+    if (root == NULL)
+        return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+int main() {
+    int n, data;
+    cin >> n;
+
+    Node* root = NULL;
+    for (int i = 0; i < n; i++) {
+        cin >> data;
+        root = insert(root, data);
+    }
+
+    int sum = sumNodes(root);
+    int count = countNodes(root);
+    int avg = sum / count;
+
+    root = deleteGreaterThanAverage(root, avg);
+    inorder(root);
+
+    return 0;
+}
