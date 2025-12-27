@@ -2,7 +2,6 @@ Single File Programming Question
 Problem Statement:
 
 
-
 Sarah is organizing a charity event where she sells tickets at different prices. She wants to calculate the total amount collected from ticket sales. To encourage group bookings, she offers a 10% discount if 3 or more tickets are purchased together.
 
 
