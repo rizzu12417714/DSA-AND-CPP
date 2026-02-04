@@ -1,5 +1,4 @@
-Question No : 4 / 5
-bookmarkIcon
+
 Single File Programming Question
 Problem Statement
 
