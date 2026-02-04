@@ -1,5 +1,4 @@
-Question No : 3 / 5
-bookmarkIcon
+
 Single File Programming Question
 Problem Statement
 
@@ -53,7 +52,9 @@ The second integer is halfway between the first and third integers.
 
 
 
-import java.util.Scanner;
+
+
+    import java.util.Scanner;
 
 class Main {
     public static void main(String[] args) {
@@ -63,7 +64,7 @@ class Main {
         int second = sc.nextInt();
         int third = sc.nextInt();
 
-        boolean result = (2 * second) == (first + third);
+        boolean result = second == (first + third) / 2;
 
         System.out.println(result);
 
