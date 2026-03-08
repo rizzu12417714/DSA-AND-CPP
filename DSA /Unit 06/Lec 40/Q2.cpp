@@ -3,7 +3,10 @@ Problem Statement
 
 
 
-You are given a network of nodes, where each node represents a location and is labelled with a unique ID. The network has directed edges that represent the travel times between different locations. Each directed edge (u, v, w) indicates that it takes time w for a signal to travel from location u to location v. The goal is to determine the minimum time it takes for a signal to reach all locations in the network starting from a given source location using the Floyd-Warshall algorithm.
+You are given a network of nodes, where each node represents a location and is labelled with a unique ID. The network has 
+directed edges that represent the travel times between different locations. Each directed edge (u, v, w) indicates that 
+it takes time w for a signal to travel from location u to location v. The goal is to determine the minimum time it takes for 
+a signal to reach all locations in the network starting from a given source location using the Floyd-Warshall algorithm.
 
 
 
@@ -41,11 +44,15 @@ Edge 3: Node 3 to Node 4 with a weight of 1.
 
 
 
-We need to find the minimum time it takes for a signal to reach all nodes starting from node 2 (k = 2). To solve this, we use the Floyd-Warshall algorithm to calculate the shortest paths between all pairs of nodes. We initialise the distance matrix with a large value (MAX_VALUE) for all pairs of nodes except for the diagonal, which is set to 0. 
+We need to find the minimum time it takes for a signal to reach all nodes starting from node 2 (k = 2). To solve this,
+    we use the Floyd-Warshall algorithm to calculate the shortest paths between all pairs of nodes. We initialise the distance
+matrix with a large value (MAX_VALUE) for all pairs of nodes except for the diagonal, which is set to 0. 
 
 
 
-After running the Floyd-Warshall algorithm, we get the updated distance matrix, where each entry represents the minimum distance between two nodes. The entry at distance_matrix[2][4] represents the shortest path from node 2 to node 4, which is 2. Hence, the minimum time for all nodes to receive the signal starting from node 2 is 2.
+After running the Floyd-Warshall algorithm, we get the updated distance matrix, where each entry represents
+the minimum distance between two nodes. The entry at distance_matrix[2][4] represents the shortest path from 
+node 2 to node 4, which is 2. Hence, the minimum time for all nodes to receive the signal starting from node 2 is 2.
 
 Therefore, the output of the given sample test case is: "The minimum time for all nodes to receive the signal is: 2".
 
